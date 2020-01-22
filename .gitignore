@@ -1,1 +1,2 @@
-*.txt
+# ignore all .txt and .png files in root folder
+/*[.txt, .png]

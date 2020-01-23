@@ -13,7 +13,6 @@ body {
 
 .wrapper {
   background-color: #000000;
-  /* background-image: url(../calculator-spec.png);*/
   margin: 0 auto;
   width: 400px;
 }
@@ -34,9 +33,9 @@ body {
 button {
   background-color: #d8d9db;
   border: none;
-  outline: none;
   font-size: 2.8rem;
   flex-basis: 24.5%;
+  outline: none;
   padding: 25px 0;
 }
 

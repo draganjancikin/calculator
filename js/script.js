@@ -1,56 +1,45 @@
 // ========================= VARIABLES =========================
 
-// variable screen, where displaying number, mathematical operators and result
-const screen = document.querySelector(".screen");
-
-// variable firstNumber, secondNumber contains first and second number of 
-// mathematical operation
 let firstNumber = 0;
 let secondNumber = 0;
 let result = 0;
 
+const screen = document.querySelector(".screen");
+
 let firstNumberStr;
 let secondNumberStr;
-let mathSymbolStr;
-let previusMathSymbolStr;
 
-// variable tempScreen, contain numbers and mathematical operator that displaying on screen
+let mathSymbol;
+let previusMathSymbol;
+
 let tempScreen = "0";
 
+// ====================== EVENT LISTENERS ======================
 
-// add event listener to whole section with class "buttons"
 document.querySelector(".buttons").addEventListener("click", function(event){
-  // debugger;
-  // filtering only element with tag name "BUTTON"
   if (event.target.tagName === "BUTTON") {
-    // when button is clicked, call the function clickButton()
     clickButton(event.target.innerText);
   }
 });
 
 // ========================= FUNCTIONS =========================
 
-function clickButton (btnStr) {
-  
-  // check if btnStr NaN or number
-  if (isNaN(btnStr)) {
-    // if is symbol call function handleSymbol()
-    handleSymbol(btnStr);
+function clickButton (str) {
+  if (isNaN(str)) {
+    handleSymbol(str);
   } else {
-    // if is number call function handleNumber()
-    handleNumber(btnStr);
+    handleNumber(str);
   }
-
   screen.innerText = tempScreen;
 }
 
-function handleSymbol (symbolStr) {
+function handleSymbol (str) {
   
   if (tempScreen === "0") {
     return;
   }
 
-  switch (symbolStr) {
+  switch (str) {
     case "←":
       handleBack();
       break;
@@ -58,7 +47,7 @@ function handleSymbol (symbolStr) {
     case "-":
     case "×":
     case "÷":
-      handleMathSymbol(symbolStr);
+      handleMathSymbol(str);
       break;
     case "=":
       handleEqual();
@@ -76,49 +65,44 @@ function reset () {
   result = 0;
   firstNumberStr = null;
   secondNumberStr = null;
-  mathSymbolStr = null;
-  previusMathSymbolStr = null;
+  mathSymbol = null;
+  previusMathSymbol = null;
   tempScreen = "0";
 }
 
 function handleEqual () {
-    
-    if (!mathSymbolStr) {
-      return;
-    }
+  if (!mathSymbol) {
+    return;
+  }
+  
+  result = doMath(mathSymbol);
+  tempScreen = result;
 
-    result = doMath(mathSymbolStr);
-    tempScreen = result;
-
-    // nema više secondNumberStr
-    secondNumberStr = null;
-    secondNumber = 0;
-    // nema više mathSymbolStr
-    mathSymbolStr = null;
+  secondNumberStr = null;
+  secondNumber = 0;
+  mathSymbol = null;
     
-    firstNumber = result;
-    firstNumberStr = result.toString();
-    
+  firstNumber = result;
+  firstNumberStr = result.toString();
 }
 
 function handleMathSymbol (symbol) {
-  
-  if (!previusMathSymbolStr) {
+  if (!previusMathSymbol) {
     
-    if (!mathSymbolStr) {
-      mathSymbolStr = symbol;
-      tempScreen += mathSymbolStr;
+    if (!mathSymbol) {
+      mathSymbol = symbol;
+      tempScreen += mathSymbol;
     } else {
-      previusMathSymbolStr = mathSymbolStr;
-      mathSymbolStr = symbol;
-      result = doMath(previusMathSymbolStr);
-      tempScreen = result + mathSymbolStr;
+      previusMathSymbol = mathSymbol;
+      mathSymbol = symbol;
+      result = doMath(previusMathSymbol);
+      tempScreen = result + mathSymbol;
       firstNumberStr = result;
       firstNumber = parseInt(firstNumberStr);
 
       secondNumberStr = null;
       secondNumber = 0;
-      previusMathSymbolStr = null;
+      previusMathSymbol = null;
     }
 
   } else {
@@ -128,31 +112,24 @@ function handleMathSymbol (symbol) {
 }
 
 function doMath (symbol) {
-  
   switch (symbol) {
     case "+":
       return firstNumber + secondNumber;
-      break;
     case "-":
       return firstNumber - secondNumber;
-      break;
     case "×":
       return firstNumber * secondNumber;
-      break;
     case "÷":
       return firstNumber / secondNumber;
-      break;
   }
-  
-
 }
 
 function handleBack () {
   if (!secondNumberStr) {
     
-    if (mathSymbolStr) {
+    if (mathSymbol) {
 
-      mathSymbolStr = null;
+      mathSymbol = null;
       tempScreen = firstNumberStr;
    
     } else {
@@ -172,7 +149,7 @@ function handleBack () {
     
     secondNumberStr = secondNumberStr.substring(0, secondNumberStr.length - 1);
     secondNumber = parseInt(secondNumberStr);
-    tempScreen = firstNumberStr + mathSymbolStr + secondNumberStr;
+    tempScreen = firstNumberStr + mathSymbol + secondNumberStr;
     if (secondNumberStr.length === 0){
       secondNumber = 0;
       secondNumberStr = null;
@@ -180,13 +157,12 @@ function handleBack () {
     
   }
   
-  
 }
 
 
 function handleNumber (numberStr) {
   
-  if (!mathSymbolStr) {
+  if (!mathSymbol) {
 
     if (!firstNumberStr) {
       firstNumberStr = numberStr;
@@ -197,7 +173,7 @@ function handleNumber (numberStr) {
     firstNumber = parseInt(firstNumberStr);
     tempScreen = firstNumberStr;
 
-  } else if (mathSymbolStr){
+  } else if (mathSymbol){
     if (!secondNumberStr) {
       secondNumberStr = numberStr;
     } else {
@@ -205,9 +181,8 @@ function handleNumber (numberStr) {
     }
     
     secondNumber = parseInt(secondNumberStr);
-    tempScreen = firstNumberStr + mathSymbolStr + secondNumberStr;
+    tempScreen = firstNumberStr + mathSymbol + secondNumberStr;
 
   }
 
-   
 }

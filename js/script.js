@@ -14,6 +14,7 @@ let previusMathSymbol;
 
 let tempScreen = "0";
 
+
 // ====================== EVENT LISTENERS ======================
 
 document.querySelector(".buttons").addEventListener("click", function(event){
@@ -21,6 +22,7 @@ document.querySelector(".buttons").addEventListener("click", function(event){
     clickButton(event.target.innerText);
   }
 });
+
 
 // ========================= FUNCTIONS =========================
 
@@ -35,9 +37,7 @@ function clickButton (str) {
 
 function handleSymbol (str) {
   
-  if (tempScreen === "0") {
-    return;
-  }
+  if (tempScreen === "0") return;
 
   switch (str) {
     case "←":
@@ -71,9 +71,8 @@ function reset () {
 }
 
 function handleEqual () {
-  if (!mathSymbol) {
-    return;
-  }
+  
+  if (!mathSymbol) return;
   
   result = doMath(mathSymbol);
   tempScreen = result;
@@ -150,15 +149,15 @@ function handleBack () {
     secondNumberStr = secondNumberStr.substring(0, secondNumberStr.length - 1);
     secondNumber = parseInt(secondNumberStr);
     tempScreen = firstNumberStr + mathSymbol + secondNumberStr;
+    
     if (secondNumberStr.length === 0){
       secondNumber = 0;
       secondNumberStr = null;
     }
     
   }
-  
+    
 }
-
 
 function handleNumber (numberStr) {
   
@@ -184,5 +183,5 @@ function handleNumber (numberStr) {
     tempScreen = firstNumberStr + mathSymbol + secondNumberStr;
 
   }
-
+   
 }
